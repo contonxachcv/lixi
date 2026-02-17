@@ -270,8 +270,8 @@
 </head>
 <body>
 
-    <video autoplay muted loop playsinline id="bg-video">
-        <source src="anh/back.mp4" type="video/mp4">
+    <video autoplay muted loop playsinline preload="auto" id="bg-video">
+        <source src="./anh/back.mp4" type="video/mp4">
         Trình duyệt không hỗ trợ video.
     </video>
 
@@ -279,20 +279,20 @@
 
     <button class="music-control" id="musicToggle">🔊</button>
 
-    <audio id="bgMusic" loop>
-        <source src="anh/nhac.mp3" type="audio/mpeg">
+    <audio id="bgMusic" loop preload="auto">
+        <source src="./anh/nhac.mp3" type="audio/mpeg">
     </audio>
 
-    <audio id="winMusic">
-        <source src="anh/nhacme1.mp3" type="audio/mpeg">
+    <audio id="winMusic" preload="auto">
+        <source src="./anh/nhacme1.mp3" type="audio/mpeg">
     </audio>
 
-    <audio id="superWinMusic">
-        <source src="anh/nhacme3.mp3" type="audio/mpeg">
+    <audio id="superWinMusic" preload="auto">
+        <source src="./anh/nhacme3.mp3" type="audio/mpeg">
     </audio>
 
-    <audio id="mediumMusic">
-        <source src="anh/nhacme2.mp3" type="audio/mpeg">
+    <audio id="mediumMusic" preload="auto">
+        <source src="./anh/nhacme2.mp3" type="audio/mpeg">
     </audio>
 
     <div class="outer-container">
@@ -336,28 +336,28 @@
         ];
 
         const memeImages = [
-            "anh/meme1.jpg",
-            "anh/meme2.jpg",
-            "anh/meme3.png",
-            "anh/meme4.jpg",
-            "anh/meme5.jpg",
-            "anh/meme6.png"
+            "./anh/meme1.jpg",
+            "./anh/meme2.jpg",
+            "./anh/meme3.png",
+            "./anh/meme4.jpg",
+            "./anh/meme5.jpg",
+            "./anh/meme6.png"
         ];
 
         const moneyImages = {
-            500:     "anh/500kmeme.jpg",
-            10000:   "anh/10k.jpg",
-            20000:   "anh/20k.jpg",
-            50000:   "anh/50k.jpg",
-            100000:  "anh/100k.jpg",
-            200000:  "anh/200k.jpg",
-            500000:  "anh/500k.jpg"
+            500:     "./anh/500kmeme.jpg",
+            10000:   "./anh/10k.jpg",
+            20000:   "./anh/20k.jpg",
+            50000:   "./anh/50k.jpg",
+            100000:  "./anh/100k.jpg",
+            200000:  "./anh/200k.jpg",
+            500000:  "./anh/500k.jpg"
         };
 
         const liXiImages = [
-            "anh/lixi1.png",
-            "anh/lixi2.png",
-            "anh/lixi3.png"
+            "./anh/lixi1.png",
+            "./anh/lixi2.png",
+            "./anh/lixi3.png"
         ];
 
         const moneyWeights = [
@@ -389,7 +389,7 @@
             }
         });
 
-        // DOM
+        // DOM elements
         const modal = document.getElementById('resultModal');
         const messageEl = document.getElementById('luckyMessage');
         const coverLayer = document.getElementById('coverLayer');
@@ -433,7 +433,7 @@
 
         modal.onclick = e => { if (e.target === modal) closeModal(); };
 
-        // Scratch
+        // Scratch logic (giữ nguyên)
         let canvas, ctx;
 
         function initScratch(amount) {
@@ -575,7 +575,11 @@
         const toggleBtn = document.getElementById('musicToggle');
 
         music.volume = 0.35;
-        music.play().catch(() => {});
+
+        music.play().catch(() => {
+            console.log("Autoplay nhạc bị block, chờ user tương tác");
+            toggleBtn.textContent = '🔇';
+        });
 
         toggleBtn.onclick = () => {
             if (music.paused) {
@@ -586,6 +590,14 @@
                 toggleBtn.textContent = '🔇';
             }
         };
+
+        // 🔥 Fix autoplay video chắc chắn hơn
+        document.addEventListener("DOMContentLoaded", () => {
+            const video = document.getElementById("bg-video");
+            video.play().catch(err => {
+                console.log("Video autoplay bị chặn:", err);
+            });
+        });
     </script>
 </body>
 </html>
