@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lì Xì</title>
+    <title>Lì Xì May Mắn</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
         body {
@@ -13,20 +13,17 @@
             padding: 0;
             min-height: 100vh;
             color: #fff;
-            overflow-x: hidden;
-            position: relative;
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #000;
+            overflow-x: hidden;
         }
 
         #bg-video {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             object-fit: cover;
             z-index: -2;
         }
@@ -34,7 +31,7 @@
         .overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0,0,0,0.5);
             z-index: -1;
         }
 
@@ -42,25 +39,24 @@
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 420px;
-            padding: 10px 15px;
+            max-width: 280px;
+            padding: 6px 10px;
             opacity: 0;
-            transform: scale(0.85);
-            animation: frameAppear 1.2s ease-out forwards;
-            animation-delay: 0.4s;
+            transform: scale(0.9);
+            animation: appear 0.9s ease-out forwards 0.3s;
         }
 
-        @keyframes frameAppear {
-            to { opacity: 1; transform: scale(1) translateY(0); }
+        @keyframes appear {
+            to { opacity: 1; transform: scale(1); }
         }
 
         .inner-container {
-            background: rgba(255, 255, 255, 0.92);
-            padding: 20px 25px;
-            border-radius: 18px;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+            background: rgba(255,255,255,0.96);
+            padding: 12px 14px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
             backdrop-filter: blur(4px);
-            min-height: 180px;
+            min-height: 110px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -69,142 +65,130 @@
 
         h1 {
             color: #c62828;
-            margin: 0 0 8px;
-            font-size: 1.8rem;
+            margin: 0 0 4px;
+            font-size: 1.35rem;
             opacity: 0;
-            animation: titleAppear 1s ease-out forwards;
-            animation-delay: 0.8s;
+            animation: titleFade 0.8s ease-out forwards 0.5s;
         }
 
         .subtitle {
             color: #b71c1c;
-            font-size: 1.1rem;
-            margin: 0 0 20px;
-            font-weight: 500;
+            font-size: 0.85rem;
+            margin: 0 0 12px;
             opacity: 0;
-            animation: titleAppear 1.2s ease-out forwards;
-            animation-delay: 1.1s;
+            animation: titleFade 0.9s ease-out forwards 0.8s;
         }
 
-        @keyframes titleAppear {
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes titleFade {
+            to { opacity: 1; }
         }
 
         .envelope-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px 18px;
+            gap: 12px 8px;
             width: 100%;
-            max-width: 320px;
+            max-width: 220px;
             margin: 0 auto;
         }
 
         .envelope {
-            width: 70px;
-            height: 95px;
+            width: 52px;
+            height: 70px;
             background-size: cover;
             background-position: center;
-            border: 2px solid #ffd700;
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
+            border: 1.5px solid #ffd700;
+            border-radius: 7px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-            opacity: 0.95;
+            transition: all 0.22s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .envelope:hover {
-            transform: scale(1.1) rotate(2deg);
-            box-shadow: 0 6px 15px rgba(255, 215, 0, 0.5);
-            opacity: 1;
+            transform: scale(1.18) rotate(5deg);
+            box-shadow: 0 4px 10px rgba(255,215,0,0.6);
         }
 
         .envelope.opened {
-            background: #e0e0e0 !important;
-            border-color: #aaa;
+            background: #ddd !important;
+            border-color: #999;
             cursor: default;
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.6);
+            transform: scale(1.02);
         }
 
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(4px);
         }
 
         .modal-content {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
-            padding: 25px;
-            max-width: 90%;
-            width: 600px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            background: rgba(255,255,255,0.97);
+            border-radius: 12px;
+            padding: 14px;
+            width: 88%;
+            max-width: 440px;
+            box-shadow: 0 7px 25px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: row;
-            gap: 25px;
+            gap: 14px;
             position: relative;
-            animation: modalPop 0.5s ease-out;
+            animation: pop 0.4s ease-out;
         }
 
-        @keyframes modalPop {
-            from { transform: scale(0.7); opacity: 0; }
+        @keyframes pop {
+            from { transform: scale(0.82); opacity: 0; }
             to   { transform: scale(1); opacity: 1; }
         }
 
         .close-btn {
             position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 28px;
+            top: 6px; right: 10px;
+            font-size: 22px;
             color: #c62828;
             cursor: pointer;
-            font-weight: bold;
         }
 
         .message-area, .scratch-area {
             flex: 1;
-            border-radius: 12px;
+            border-radius: 9px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            box-shadow: 0 3px 9px rgba(0,0,0,0.2);
         }
 
         .message-area {
-            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
-            padding: 25px 20px;
+            background: linear-gradient(135deg, #fff8e1, #ffe082);
+            padding: 14px 12px;
             color: #c62828;
-            min-height: 280px;
+            min-height: 190px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .message-area h2 {
-            margin: 0 0 15px;
-            font-size: 1.8rem;
+            margin: 0 0 8px;
+            font-size: 1.35rem;
         }
 
         .message-area p {
-            margin: 0 0 20px;
-            font-size: 1.15rem;
-            line-height: 1.6;
+            margin: 0 0 12px;
+            font-size: 0.95rem;
+            line-height: 1.4;
         }
 
         .meme-image {
             max-width: 100%;
-            max-height: 180px;
+            max-height: 110px;
             object-fit: contain;
-            border-radius: 12px;
-            margin-top: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border-radius: 7px;
+            margin-top: 5px;
         }
 
         .scratch-area {
@@ -212,11 +196,11 @@
             position: relative;
             aspect-ratio: 4 / 5;
             width: 100%;
-            max-width: 280px;
-            min-height: 320px;
-            border-radius: 16px;
+            max-width: 200px;
+            min-height: 240px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+            touch-action: none;
         }
 
         #scratchCanvas {
@@ -234,11 +218,11 @@
             align-items: center;
             justify-content: center;
             color: #ffeb3b;
-            font-size: 1.25rem;
+            font-size: 0.95rem;
             font-weight: bold;
-            text-shadow: 1px 1px 5px #000;
+            text-shadow: 1px 1px 3px #000;
             pointer-events: none;
-            padding: 20px;
+            padding: 10px;
             z-index: 2;
         }
 
@@ -252,58 +236,35 @@
 
         .music-control {
             position: fixed;
-            top: 15px;
-            right: 15px;
+            top: 8px;
+            right: 8px;
             z-index: 100;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.65);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            font-size: 1.4rem;
+            width: 36px;
+            height: 36px;
+            font-size: 1.15rem;
             cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
         }
 
         @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-2px, -3px) rotate(-2deg); }
-            20% { transform: translate(-4px, 0px) rotate(2deg); }
-            30% { transform: translate(4px, 3px) rotate(0deg); }
-            40% { transform: translate(2px, -2px) rotate(2deg); }
-            50% { transform: translate(-2px, 3px) rotate(-2deg); }
-            60% { transform: translate(-4px, 2px) rotate(0deg); }
-            70% { transform: translate(4px, 2px) rotate(-2deg); }
-            80% { transform: translate(-2px, -2px) rotate(2deg); }
-            90% { transform: translate(2px, 3px) rotate(0deg); }
-            100% { transform: translate(1px, -3px) rotate(-2deg); }
+            0%,100% { transform: translate(0,0) rotate(0deg); }
+            10% { transform: translate(-1.5px,-1px) rotate(-2deg); }
+            20% { transform: translate(1.5px,1px) rotate(2deg); }
+            30% { transform: translate(-1.5px,0) rotate(-1deg); }
+            40% { transform: translate(1.5px,0) rotate(1deg); }
+            50% { transform: translate(0,0) rotate(0deg); }
         }
 
-        .shake-super {
-            animation: shake 1.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-        }
+        .shake-super { animation: shake 1s ease-in-out; }
+        .shake-normal { animation: shake 0.65s ease-in-out; }
 
-        .shake-normal {
-            animation: shake 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-        }
-
-        @media (max-width: 650px) {
-            .modal-content {
-                flex-direction: column;
-                width: 94%;
-                padding: 20px;
-            }
-            .scratch-area {
-                max-width: 320px;
-                min-height: 380px;
-            }
-            .message-area {
-                min-height: 300px;
-            }
-            .meme-image {
-                max-height: 160px;
-            }
+        @media (max-width: 420px) {
+            .modal-content { flex-direction: column; padding: 12px; }
+            .scratch-area { max-width: 220px; min-height: 260px; }
+            .meme-image { max-height: 100px; }
         }
     </style>
 </head>
@@ -322,17 +283,14 @@
         <source src="anh/nhac.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Nhạc cho 100k & 200k -->
     <audio id="winMusic">
         <source src="anh/nhacme1.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Nhạc RIÊNG cho tờ 500k meme (amount = 500) -->
     <audio id="superWinMusic">
         <source src="anh/nhacme3.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Nhạc cho 10k, 20k, 50k -->
     <audio id="mediumMusic">
         <source src="anh/nhacme2.mp3" type="audio/mpeg">
     </audio>
@@ -340,7 +298,7 @@
     <div class="outer-container">
         <div class="inner-container">
             <h1>Chúc Mừng Năm Mới!</h1>
-            <div class="subtitle">Nhấn vào lì xì để nhận may mắn</div>
+            <div class="subtitle">Chạm lì xì nhận lộc</div>
             <div class="envelope-grid" id="envelopeGrid"></div>
         </div>
     </div>
@@ -354,13 +312,13 @@
                     <h2>Chúc mừng!</h2>
                     <p id="luckyMessage"></p>
                 </div>
-                <img id="memeImage" class="meme-image" alt="Meme vui" src="">
+                <img id="memeImage" class="meme-image" alt="Meme" src="">
             </div>
 
             <div class="scratch-area">
                 <canvas id="scratchCanvas"></canvas>
-                <img id="moneyImage" class="money-image" alt="Tờ tiền may mắn">
-                <div class="cover-layer" id="coverLayer">Cào để xem số tiền!</div>
+                <img id="moneyImage" class="money-image" alt="Tiền lì xì">
+                <div class="cover-layer" id="coverLayer">Cào để xem tiền!</div>
             </div>
         </div>
     </div>
@@ -368,14 +326,13 @@
     <script>
         // Dữ liệu
         const luckyMessages = [
-            "Lì xì vậy thôi, đừng nhìn số tiền mà buồn.",
-            "Cầm lấy mà ăn Tết, nhớ đừng đòi thêm.",
-            "anh/chị lì xì bằng cả tấm lòng… chứ không phải cả ví tiền.",
-            "Năm nay phát ít, năm sau phát nhiều… nếu trúng số.",
-            "Số tiền không quan trọng, quan trọng là… có tiền.",
-            "Lì xì ít nhưng tình cảm nhiều (nhiều thiệt).",
-            "Chúc năm mới giàu sang, còn hiện tại thì… ráng chịu.",
-            "Chúc học giỏi hơn năm ngoái, đừng giỏi hơn anh/chị là được."
+            "Lì xì vậy thôi, đừng nhìn số tiền mà buồn nhé!",
+            "Cầm lấy mà ăn Tết, nhớ đừng đòi thêm nha.",
+            "Tấm lòng anh/chị đây… chứ ví tiền thì không nhiều đâu.",
+            "Năm nay ít, năm sau nhiều… nếu trúng số trước.",
+            "Tiền không quan trọng, quan trọng là… có tiền.",
+            "Ít tiền nhưng tình cảm đầy ắp (đầy thật đấy).",
+            "Chúc năm mới phát tài, còn hiện tại thì… cố lên!"
         ];
 
         const memeImages = [
@@ -388,16 +345,20 @@
         ];
 
         const moneyImages = {
-            500:     "anh/500kmeme.jpg",     // tờ 500k meme
+            500:     "anh/500kmeme.jpg",
             10000:   "anh/10k.jpg",
             20000:   "anh/20k.jpg",
             50000:   "anh/50k.jpg",
             100000:  "anh/100k.jpg",
             200000:  "anh/200k.jpg",
-            500000:  "anh/500k.jpg"          // tờ 500k thường (nếu có)
+            500000:  "anh/500k.jpg"
         };
 
-        const liXiImages = ["anh/lixi1.png", "anh/lixi2.png", "anh/lixi3.png"];
+        const liXiImages = [
+            "anh/lixi1.png",
+            "anh/lixi2.png",
+            "anh/lixi3.png"
+        ];
 
         const moneyWeights = [
             { amount: 500,    weight: 23.5 },
@@ -409,12 +370,10 @@
             { amount: 500000, weight: 3.6  }
         ];
 
-        // Phân loại mức thưởng
-        const superWinAmounts   = [500];                    // tờ 500k meme
-        const normalWinAmounts  = [100000, 200000];         // 100k & 200k
-        const mediumWinAmounts  = [10000, 20000, 50000];    // chỉ nhạc
+        const superWinAmounts  = [500];
+        const normalWinAmounts = [100000, 200000];
+        const mediumWinAmounts = [10000, 20000, 50000];
 
-        // Hàm hỗ trợ
         function getMoneyImageUrl(amount) {
             return moneyImages[amount] || moneyImages[500];
         }
@@ -430,7 +389,7 @@
             }
         });
 
-        // DOM & Audio
+        // DOM
         const modal = document.getElementById('resultModal');
         const messageEl = document.getElementById('luckyMessage');
         const coverLayer = document.getElementById('coverLayer');
@@ -438,50 +397,49 @@
         const memeImage = document.getElementById('memeImage');
         const grid = document.getElementById('envelopeGrid');
 
-        const winMusic       = document.getElementById('winMusic');
-        const superWinMusic  = document.getElementById('superWinMusic');
-        const mediumMusic    = document.getElementById('mediumMusic');
+        const winMusic      = document.getElementById('winMusic');
+        const superWinMusic = document.getElementById('superWinMusic');
+        const mediumMusic   = document.getElementById('mediumMusic');
 
-        winMusic.volume      = 0.6;
+        winMusic.volume = 0.6;
         superWinMusic.volume = 0.7;
-        mediumMusic.volume   = 0.6;
+        mediumMusic.volume = 0.6;
 
-        // Reset tất cả hiệu ứng & nhạc
-        function resetEffects() {
-            const modalContent = document.querySelector('.modal-content');
-            const messageArea = document.getElementById('messageArea');
+        let hasPlayedMusic = false;
+        let currentAmount = null;
 
-            modalContent.classList.remove('shake-super', 'shake-normal');
-            messageArea.style.background = 'linear-gradient(135deg, #fff3e0, #ffe0b2)';
-
-            [winMusic, superWinMusic, mediumMusic].forEach(m => {
-                m.pause();
-                m.currentTime = 0;
-            });
-        }
-
-        // Đóng modal
         function closeModal() {
             modal.style.display = 'none';
             coverLayer.style.display = 'flex';
             moneyImage.style.display = 'none';
-            resetEffects();
 
+            winMusic.pause(); winMusic.currentTime = 0;
+            superWinMusic.pause(); superWinMusic.currentTime = 0;
+            mediumMusic.pause(); mediumMusic.currentTime = 0;
+
+            hasPlayedMusic = false;
+            currentAmount = null;
+
+            const canvas = document.getElementById('scratchCanvas');
             if (canvas) {
-                ctx.globalCompositeOperation = 'source-over';
+                const ctx = canvas.getContext('2d');
+                const dpr = window.devicePixelRatio || 1;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = '#616161';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillRect(0, 0, canvas.width/dpr, canvas.height/dpr);
+                ctx.globalCompositeOperation = 'destination-out';
             }
         }
 
-        modal.onclick = (e) => {
-            if (e.target === modal) closeModal();
-        };
+        modal.onclick = e => { if (e.target === modal) closeModal(); };
 
-        // Scratch logic
+        // Scratch
         let canvas, ctx;
 
         function initScratch(amount) {
+            currentAmount = amount;
+            hasPlayedMusic = false;
+
             canvas = document.getElementById('scratchCanvas');
             ctx = canvas.getContext('2d');
 
@@ -500,11 +458,15 @@
 
             let isDrawing = false;
 
-            function startScratch(e) { 
-                isDrawing = true; 
-                scratch(e); 
+            function startScratch(e) {
+                if (e.touches) e.preventDefault();
+                isDrawing = true;
+                scratch(e);
             }
-            function endScratch() { isDrawing = false; }
+
+            function endScratch() {
+                isDrawing = false;
+            }
 
             function scratch(e) {
                 if (!isDrawing) return;
@@ -514,127 +476,106 @@
                 const y = ((e.clientY || (e.touches && e.touches[0].clientY)) - rect.top) * dpr;
 
                 ctx.beginPath();
-                ctx.arc(x, y, 42, 0, Math.PI * 2);
+                ctx.arc(x, y, 25, 0, Math.PI * 2);
                 ctx.fill();
 
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const transparentPixels = imageData.data.filter((v, i) => i % 4 === 3 && v < 10).length;
-                const totalPixels = canvas.width * canvas.height;
+                const transparent = imageData.data.filter((v,i) => i%4===3 && v < 20).length;
+                const percent = (transparent / (canvas.width * canvas.height)) * 100;
 
-                if (transparentPixels / totalPixels > 0.75) {
+                if (percent >= 65 && !hasPlayedMusic) {
                     coverLayer.style.display = 'none';
                     moneyImage.src = getMoneyImageUrl(amount);
                     moneyImage.style.display = 'flex';
 
-                    // Reset trước khi áp dụng hiệu ứng mới
-                    resetEffects();
-
                     const modalContent = document.querySelector('.modal-content');
-                    const messageArea = document.getElementById('messageArea');
-                    const originalBg = 'linear-gradient(135deg, #fff3e0, #ffe0b2)';
+                    const msgArea = document.getElementById('messageArea');
+                    const originalBg = msgArea.style.background || '';
 
                     if (superWinAmounts.includes(amount)) {
-                        // 500k meme - siêu đặc biệt
-                        superWinMusic.play().catch(e => console.log("Super win music error:", e));
+                        superWinMusic.currentTime = 0;
+                        superWinMusic.play().catch(console.log);
+                        hasPlayedMusic = true;
                         modalContent.classList.add('shake-super');
-                        setTimeout(() => modalContent.classList.remove('shake-super'), 1800);
+                        setTimeout(() => modalContent.classList.remove('shake-super'), 1200);
                         launchSuperConfetti();
-                        messageArea.style.background = 'linear-gradient(135deg, #ffeb3b, #ff9800, #f44336, #ffd700)';
-                        setTimeout(() => { messageArea.style.background = originalBg; }, 10000);
-                    } 
+                        msgArea.style.background = 'linear-gradient(135deg, #ffeb3b, #ff9800, #f44336, #ffd700)';
+                        setTimeout(() => msgArea.style.background = originalBg, 6000);
+                    }
                     else if (normalWinAmounts.includes(amount)) {
-                        // 100k, 200k
-                        winMusic.play().catch(e => console.log("Win music error:", e));
+                        winMusic.currentTime = 0;
+                        winMusic.play().catch(console.log);
+                        hasPlayedMusic = true;
                         modalContent.classList.add('shake-normal');
-                        setTimeout(() => modalContent.classList.remove('shake-normal'), 1200);
+                        setTimeout(() => modalContent.classList.remove('shake-normal'), 800);
                         launchConfetti();
-                        messageArea.style.background = 'linear-gradient(135deg, #ffd700, #ff6f00)';
-                        setTimeout(() => { messageArea.style.background = originalBg; }, 6000);
-                    } 
+                        msgArea.style.background = 'linear-gradient(135deg, #ffd700, #ff6f00)';
+                        setTimeout(() => msgArea.style.background = originalBg, 4000);
+                    }
                     else if (mediumWinAmounts.includes(amount)) {
-                        // 10k, 20k, 50k - chỉ nhạc, không hiệu ứng
-                        mediumMusic.play().catch(e => console.log("Medium music error:", e));
-                    } 
-                    else {
-                        console.warn("Amount không thuộc nhóm nào:", amount);
+                        mediumMusic.currentTime = 0;
+                        mediumMusic.play().catch(console.log);
+                        hasPlayedMusic = true;
                     }
                 }
             }
 
             canvas.addEventListener('mousedown', startScratch);
-            canvas.addEventListener('touchstart', startScratch, { passive: false });
+            canvas.addEventListener('touchstart', startScratch, {passive: false});
             canvas.addEventListener('mousemove', scratch);
-            canvas.addEventListener('touchmove', scratch, { passive: false });
+            canvas.addEventListener('touchmove', scratch, {passive: false});
             canvas.addEventListener('mouseup', endScratch);
             canvas.addEventListener('touchend', endScratch);
             canvas.addEventListener('mouseleave', endScratch);
         }
 
         function launchConfetti() {
-            const duration = 5000;
-            const end = Date.now() + duration;
+            const end = Date.now() + 3500;
             (function frame() {
-                confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 } });
-                confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 } });
+                confetti({particleCount:4, angle:60, spread:45, origin:{x:0}});
+                confetti({particleCount:4, angle:120, spread:45, origin:{x:1}});
                 if (Date.now() < end) requestAnimationFrame(frame);
-            }());
+            })();
         }
 
         function launchSuperConfetti() {
-            const duration = 8000;
-            const end = Date.now() + duration;
+            const end = Date.now() + 5500;
             (function frame() {
-                confetti({
-                    particleCount: 12,
-                    angle: 60,
-                    spread: 70,
-                    origin: { x: 0 },
-                    colors: ['#ffeb3b', '#ffd700', '#ffffff', '#ff9800']
-                });
-                confetti({
-                    particleCount: 12,
-                    angle: 120,
-                    spread: 70,
-                    origin: { x: 1 },
-                    colors: ['#ffeb3b', '#ffd700', '#ffffff', '#ff9800']
-                });
+                confetti({particleCount:8, angle:60, spread:60, origin:{x:0}, colors:['#ffeb3b','#ffd700','#fff','#ff9800']});
+                confetti({particleCount:8, angle:120, spread:60, origin:{x:1}, colors:['#ffeb3b','#ffd700','#fff','#ff9800']});
                 if (Date.now() < end) requestAnimationFrame(frame);
-            }());
+            })();
         }
 
         // Tạo 9 phong bì
-        const numEnvelopes = 9;
-
-        for (let i = 0; i < numEnvelopes; i++) {
+        for (let i = 0; i < 9; i++) {
             const amount = getRandomItem(weightedAmounts);
             const liXiImg = getRandomItem(liXiImages);
 
-            const envelopeDiv = document.createElement('div');
-            envelopeDiv.className = 'envelope';
-            envelopeDiv.style.backgroundImage = `url('${liXiImg}')`;
+            const env = document.createElement('div');
+            env.className = 'envelope';
+            env.style.backgroundImage = `url('${liXiImg}')`;
 
-            envelopeDiv.onclick = () => {
-                if (envelopeDiv.classList.contains('opened')) return;
-                envelopeDiv.classList.add('opened');
+            env.onclick = () => {
+                if (env.classList.contains('opened')) return;
+                env.classList.add('opened');
 
                 messageEl.textContent = getRandomItem(luckyMessages);
                 memeImage.src = getRandomItem(memeImages);
-                memeImage.style.display = 'block';
-
                 modal.style.display = 'flex';
 
-                setTimeout(() => initScratch(amount), 300);
+                setTimeout(() => initScratch(amount), 200);
             };
 
-            grid.appendChild(envelopeDiv);
+            grid.appendChild(env);
         }
 
         // Nhạc nền
         const music = document.getElementById('bgMusic');
         const toggleBtn = document.getElementById('musicToggle');
 
-        music.volume = 0.4;
-        music.play().catch(() => console.log("Autoplay bị chặn"));
+        music.volume = 0.35;
+        music.play().catch(() => {});
 
         toggleBtn.onclick = () => {
             if (music.paused) {

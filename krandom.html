@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lì Xì May Mắn 2026</title>
+    <title>Lì Xì Ngẫu Nhiên</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
         body {
@@ -13,17 +13,20 @@
             padding: 0;
             min-height: 100vh;
             color: #fff;
-            background: #000;
+            overflow-x: hidden;
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            background: #000;
         }
 
         #bg-video {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             z-index: -2;
         }
@@ -31,7 +34,7 @@
         .overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.45);
+            background: rgba(0, 0, 0, 0.35);
             z-index: -1;
         }
 
@@ -39,24 +42,25 @@
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 320px;
-            padding: 8px 12px;
+            max-width: 420px;
+            padding: 10px 15px;
             opacity: 0;
-            transform: scale(0.92);
-            animation: appear 1s ease-out forwards 0.3s;
+            transform: scale(0.85);
+            animation: frameAppear 1.2s ease-out forwards;
+            animation-delay: 0.4s;
         }
 
-        @keyframes appear {
-            to { opacity: 1; transform: scale(1); }
+        @keyframes frameAppear {
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .inner-container {
-            background: rgba(255,255,255,0.95);
-            padding: 14px 16px;
-            border-radius: 14px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.4);
+            background: rgba(255, 255, 255, 0.92);
+            padding: 20px 25px;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.4);
             backdrop-filter: blur(4px);
-            min-height: 130px;
+            min-height: 180px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -65,130 +69,142 @@
 
         h1 {
             color: #c62828;
-            margin: 0 0 5px;
-            font-size: 1.5rem;
+            margin: 0 0 8px;
+            font-size: 1.8rem;
             opacity: 0;
-            animation: titleFade 0.9s ease-out forwards 0.6s;
+            animation: titleAppear 1s ease-out forwards;
+            animation-delay: 0.8s;
         }
 
         .subtitle {
             color: #b71c1c;
-            font-size: 0.9rem;
-            margin: 0 0 14px;
+            font-size: 1.1rem;
+            margin: 0 0 20px;
+            font-weight: 500;
             opacity: 0;
-            animation: titleFade 1s ease-out forwards 0.9s;
+            animation: titleAppear 1.2s ease-out forwards;
+            animation-delay: 1.1s;
         }
 
-        @keyframes titleFade {
-            to { opacity: 1; }
+        @keyframes titleAppear {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .envelope-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 14px 10px;
+            gap: 24px 18px;
             width: 100%;
-            max-width: 250px;
+            max-width: 320px;
             margin: 0 auto;
         }
 
         .envelope {
-            width: 58px;
-            height: 78px;
+            width: 70px;
+            height: 95px;
             background-size: cover;
             background-position: center;
             border: 2px solid #ffd700;
-            border-radius: 8px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
             cursor: pointer;
-            transition: all 0.25s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            opacity: 0.95;
         }
 
         .envelope:hover {
-            transform: scale(1.15) rotate(4deg);
-            box-shadow: 0 5px 12px rgba(255,215,0,0.6);
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 6px 15px rgba(255, 215, 0, 0.5);
+            opacity: 1;
         }
 
         .envelope.opened {
-            background: #ddd !important;
-            border-color: #999;
+            background: #e0e0e0 !important;
+            border-color: #aaa;
             cursor: default;
-            transform: scale(1.03);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.6);
         }
 
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.6);
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
-            background: rgba(255,255,255,0.97);
-            border-radius: 14px;
-            padding: 16px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 90%;
+            width: 600px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: row;
-            gap: 16px;
+            gap: 25px;
             position: relative;
-            animation: pop 0.4s ease-out;
+            animation: modalPop 0.5s ease-out;
         }
 
-        @keyframes pop {
-            from { transform: scale(0.8); opacity: 0; }
+        @keyframes modalPop {
+            from { transform: scale(0.7); opacity: 0; }
             to   { transform: scale(1); opacity: 1; }
         }
 
         .close-btn {
             position: absolute;
-            top: 8px; right: 12px;
-            font-size: 24px;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
             color: #c62828;
             cursor: pointer;
+            font-weight: bold;
         }
 
         .message-area, .scratch-area {
             flex: 1;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-
-        .message-area {
-            background: linear-gradient(135deg, #fff8e1, #ffe082);
-            padding: 16px 14px;
-            color: #c62828;
-            min-height: 220px;
-            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+        }
+
+        .message-area {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            padding: 25px 20px;
+            color: #c62828;
+            min-height: 280px;
+            text-align: center;
         }
 
         .message-area h2 {
-            margin: 0 0 10px;
-            font-size: 1.5rem;
+            margin: 0 0 15px;
+            font-size: 1.8rem;
         }
 
         .message-area p {
-            margin: 0 0 14px;
-            font-size: 1rem;
-            line-height: 1.45;
+            margin: 0 0 20px;
+            font-size: 1.15rem;
+            line-height: 1.6;
         }
 
         .meme-image {
             max-width: 100%;
-            max-height: 130px;
+            max-height: 180px;
             object-fit: contain;
-            border-radius: 8px;
-            margin-top: 6px;
+            border-radius: 12px;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .scratch-area {
@@ -196,11 +212,11 @@
             position: relative;
             aspect-ratio: 4 / 5;
             width: 100%;
-            max-width: 230px;
-            min-height: 270px;
-            border-radius: 12px;
+            max-width: 280px;
+            min-height: 320px;
+            border-radius: 16px;
             overflow: hidden;
-            touch-action: none;          /* Giúp cào mượt hơn trên mobile */
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
         }
 
         #scratchCanvas {
@@ -218,11 +234,11 @@
             align-items: center;
             justify-content: center;
             color: #ffeb3b;
-            font-size: 1rem;
+            font-size: 1.25rem;
             font-weight: bold;
-            text-shadow: 1px 1px 3px #000;
+            text-shadow: 1px 1px 5px #000;
             pointer-events: none;
-            padding: 12px;
+            padding: 20px;
             z-index: 2;
         }
 
@@ -236,42 +252,65 @@
 
         .music-control {
             position: fixed;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             z-index: 100;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.5);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.25rem;
+            width: 48px;
+            height: 48px;
+            font-size: 1.4rem;
             cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
         }
 
         @keyframes shake {
-            0%,100% { transform: translate(0,0) rotate(0deg); }
-            10% { transform: translate(-2px,-1px) rotate(-2deg); }
-            20% { transform: translate(2px,1px) rotate(2deg); }
-            30% { transform: translate(-2px,0) rotate(-1deg); }
-            40% { transform: translate(2px,0) rotate(1deg); }
-            50% { transform: translate(0,0) rotate(0deg); }
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-2px, -3px) rotate(-2deg); }
+            20% { transform: translate(-4px, 0px) rotate(2deg); }
+            30% { transform: translate(4px, 3px) rotate(0deg); }
+            40% { transform: translate(2px, -2px) rotate(2deg); }
+            50% { transform: translate(-2px, 3px) rotate(-2deg); }
+            60% { transform: translate(-4px, 2px) rotate(0deg); }
+            70% { transform: translate(4px, 2px) rotate(-2deg); }
+            80% { transform: translate(-2px, -2px) rotate(2deg); }
+            90% { transform: translate(2px, 3px) rotate(0deg); }
+            100% { transform: translate(1px, -3px) rotate(-2deg); }
         }
 
-        .shake-super { animation: shake 1.1s ease-in-out; }
-        .shake-normal { animation: shake 0.7s ease-in-out; }
+        .shake-super {
+            animation: shake 1.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
 
-        @media (max-width: 480px) {
-            .modal-content { flex-direction: column; padding: 14px; }
-            .scratch-area { max-width: 250px; min-height: 300px; }
-            .meme-image { max-height: 120px; }
+        .shake-normal {
+            animation: shake 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
+
+        @media (max-width: 650px) {
+            .modal-content {
+                flex-direction: column;
+                width: 94%;
+                padding: 20px;
+            }
+            .scratch-area {
+                max-width: 320px;
+                min-height: 380px;
+            }
+            .message-area {
+                min-height: 300px;
+            }
+            .meme-image {
+                max-height: 160px;
+            }
         }
     </style>
 </head>
 <body>
 
     <video autoplay muted loop playsinline id="bg-video">
-        <source src="/ten-repo-cua-ban/anh/back.mp4" type="video/mp4">
+        <source src="anh/back.mp4" type="video/mp4">
         Trình duyệt không hỗ trợ video.
     </video>
 
@@ -280,25 +319,25 @@
     <button class="music-control" id="musicToggle">🔊</button>
 
     <audio id="bgMusic" loop>
-        <source src="/ten-repo-cua-ban/anh/nhac.mp3" type="audio/mpeg">
+        <source src="anh/nhac.mp3" type="audio/mpeg">
     </audio>
 
     <audio id="winMusic">
-        <source src="/ten-repo-cua-ban/anh/nhacme1.mp3" type="audio/mpeg">
+        <source src="anh/nhacme1.mp3" type="audio/mpeg">
     </audio>
 
     <audio id="superWinMusic">
-        <source src="/ten-repo-cua-ban/anh/nhacme3.mp3" type="audio/mpeg">
+        <source src="anh/nhacme3.mp3" type="audio/mpeg">
     </audio>
 
     <audio id="mediumMusic">
-        <source src="/ten-repo-cua-ban/anh/nhacme2.mp3" type="audio/mpeg">
+        <source src="anh/nhacme2.mp3" type="audio/mpeg">
     </audio>
 
     <div class="outer-container">
         <div class="inner-container">
             <h1>Chúc Mừng Năm Mới!</h1>
-            <div class="subtitle">Chạm vào lì xì để nhận lộc</div>
+            <div class="subtitle">Nhấn vào lì xì để nhận may mắn</div>
             <div class="envelope-grid" id="envelopeGrid"></div>
         </div>
     </div>
@@ -312,12 +351,12 @@
                     <h2>Chúc mừng!</h2>
                     <p id="luckyMessage"></p>
                 </div>
-                <img id="memeImage" class="meme-image" alt="Meme" src="">
+                <img id="memeImage" class="meme-image" alt="Meme vui" src="">
             </div>
 
             <div class="scratch-area">
                 <canvas id="scratchCanvas"></canvas>
-                <img id="moneyImage" class="money-image" alt="Tiền lì xì">
+                <img id="moneyImage" class="money-image" alt="Tờ tiền may mắn">
                 <div class="cover-layer" id="coverLayer">Cào để xem số tiền!</div>
             </div>
         </div>
@@ -326,39 +365,36 @@
     <script>
         // Dữ liệu
         const luckyMessages = [
-            "Lì xì vậy thôi, đừng nhìn số tiền mà buồn nhé!",
-            "Cầm lấy mà ăn Tết, nhớ đừng đòi thêm nha.",
-            "Tấm lòng anh/chị đây… chứ ví tiền thì không nhiều đâu.",
-            "Năm nay ít, năm sau nhiều… nếu trúng số trước.",
-            "Tiền không quan trọng, quan trọng là… có tiền.",
-            "Ít tiền nhưng tình cảm đầy ắp (đầy thật đấy).",
-            "Chúc năm mới phát tài, còn hiện tại thì… cố lên!"
+            "Lì xì vậy thôi, đừng nhìn số tiền mà buồn.",
+            "Cầm lấy mà ăn Tết, nhớ đừng đòi thêm.",
+            "anh/chị lì xì bằng cả tấm lòng… chứ không phải cả ví tiền.",
+            "Năm nay phát ít, năm sau phát nhiều… nếu trúng số.",
+            "Số tiền không quan trọng, quan trọng là… có tiền.",
+            "Lì xì ít nhưng tình cảm nhiều (nhiều thiệt).",
+            "Chúc năm mới giàu sang, còn hiện tại thì… ráng chịu.",
+            "Chúc học giỏi hơn năm ngoái, đừng giỏi hơn anh/chị là được."
         ];
 
         const memeImages = [
-            "/ten-repo-cua-ban/anh/meme1.jpg",
-            "/ten-repo-cua-ban/anh/meme2.jpg",
-            "/ten-repo-cua-ban/anh/meme3.png",
-            "/ten-repo-cua-ban/anh/meme4.jpg",
-            "/ten-repo-cua-ban/anh/meme5.jpg",
-            "/ten-repo-cua-ban/anh/meme6.png"
+            "anh/meme1.jpg",
+            "anh/meme2.jpg",
+            "anh/meme3.png",
+            "anh/meme4.jpg",
+            "anh/meme5.jpg",
+            "anh/meme6.png"
         ];
 
         const moneyImages = {
-            500:     "/ten-repo-cua-ban/anh/500kmeme.jpg",
-            10000:   "/ten-repo-cua-ban/anh/10k.jpg",
-            20000:   "/ten-repo-cua-ban/anh/20k.jpg",
-            50000:   "/ten-repo-cua-ban/anh/50k.jpg",
-            100000:  "/ten-repo-cua-ban/anh/100k.jpg",
-            200000:  "/ten-repo-cua-ban/anh/200k.jpg",
-            500000:  "/ten-repo-cua-ban/anh/500k.jpg"
+            500:     "anh/500kmeme.jpg",
+            10000:   "anh/10k.jpg",
+            20000:   "anh/20k.jpg",
+            50000:   "anh/50k.jpg",
+            100000:  "anh/100k.jpg",
+            200000:  "anh/200k.jpg",
+            500000:  "anh/500k.jpg"
         };
 
-        const liXiImages = [
-            "/ten-repo-cua-ban/anh/lixi1.png",
-            "/ten-repo-cua-ban/anh/lixi2.png",
-            "/ten-repo-cua-ban/anh/lixi3.png"
-        ];
+        const liXiImages = ["anh/lixi1.png", "anh/lixi2.png", "anh/lixi3.png"];
 
         const moneyWeights = [
             { amount: 500,    weight: 23.5 },
@@ -370,9 +406,9 @@
             { amount: 500000, weight: 3.6  }
         ];
 
-        const superWinAmounts  = [500];
-        const normalWinAmounts = [100000, 200000];
-        const mediumWinAmounts = [10000, 20000, 50000];
+        const superWinAmounts   = [500];
+        const normalWinAmounts  = [100000, 200000];
+        const mediumWinAmounts  = [10000, 20000, 50000];
 
         // Hàm hỗ trợ
         function getMoneyImageUrl(amount) {
@@ -390,7 +426,7 @@
             }
         });
 
-        // DOM elements
+        // DOM & Audio
         const modal = document.getElementById('resultModal');
         const messageEl = document.getElementById('luckyMessage');
         const coverLayer = document.getElementById('coverLayer');
@@ -398,14 +434,15 @@
         const memeImage = document.getElementById('memeImage');
         const grid = document.getElementById('envelopeGrid');
 
-        const winMusic      = document.getElementById('winMusic');
-        const superWinMusic = document.getElementById('superWinMusic');
-        const mediumMusic   = document.getElementById('mediumMusic');
+        const winMusic       = document.getElementById('winMusic');
+        const superWinMusic  = document.getElementById('superWinMusic');
+        const mediumMusic    = document.getElementById('mediumMusic');
 
-        winMusic.volume = 0.6;
+        winMusic.volume      = 0.6;
         superWinMusic.volume = 0.7;
-        mediumMusic.volume = 0.6;
+        mediumMusic.volume   = 0.6;
 
+        // Biến toàn cục để theo dõi trạng thái nhạc trong modal hiện tại
         let hasPlayedMusic = false;
         let currentAmount = null;
 
@@ -414,25 +451,30 @@
             coverLayer.style.display = 'flex';
             moneyImage.style.display = 'none';
 
-            winMusic.pause(); winMusic.currentTime = 0;
+            winMusic.pause();      winMusic.currentTime = 0;
             superWinMusic.pause(); superWinMusic.currentTime = 0;
-            mediumMusic.pause(); mediumMusic.currentTime = 0;
+            mediumMusic.pause();   mediumMusic.currentTime = 0;
 
+            // Reset trạng thái quan trọng
             hasPlayedMusic = false;
             currentAmount = null;
 
+            // Reset canvas
             const canvas = document.getElementById('scratchCanvas');
             if (canvas) {
                 const ctx = canvas.getContext('2d');
                 const dpr = window.devicePixelRatio || 1;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.scale(dpr, dpr);
+                ctx.globalCompositeOperation = 'source-over';
                 ctx.fillStyle = '#616161';
-                ctx.fillRect(0, 0, canvas.width/dpr, canvas.height/dpr);
+                ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr);
                 ctx.globalCompositeOperation = 'destination-out';
             }
         }
 
-        modal.onclick = e => { if (e.target === modal) closeModal(); };
+        modal.onclick = (e) => {
+            if (e.target === modal) closeModal();
+        };
 
         // Scratch logic
         let canvas, ctx;
@@ -460,7 +502,6 @@
             let isDrawing = false;
 
             function startScratch(e) {
-                if (e.touches) e.preventDefault();
                 isDrawing = true;
                 scratch(e);
             }
@@ -477,106 +518,136 @@
                 const y = ((e.clientY || (e.touches && e.touches[0].clientY)) - rect.top) * dpr;
 
                 ctx.beginPath();
-                ctx.arc(x, y, 28, 0, Math.PI * 2);   // bán kính nhỏ hơn → mượt hơn trên mobile
+                ctx.arc(x, y, 42, 0, Math.PI * 2);
                 ctx.fill();
 
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const transparent = imageData.data.filter((v,i) => i%4===3 && v < 20).length;
-                const percent = (transparent / (canvas.width * canvas.height)) * 100;
+                const transparentPixels = imageData.data.filter((v, i) => i % 4 === 3 && v < 10).length;
+                const totalPixels = canvas.width * canvas.height;
+                const scratchedPercent = (transparentPixels / totalPixels) * 100;
 
-                if (percent >= 65 && !hasPlayedMusic) {   // ngưỡng thấp hơn → dễ reveal hơn
+                // Khi cào sạch ≥ 75% thì hiển thị và phát nhạc (chỉ 1 lần)
+                if (scratchedPercent >= 75 && !hasPlayedMusic) {
                     coverLayer.style.display = 'none';
                     moneyImage.src = getMoneyImageUrl(amount);
                     moneyImage.style.display = 'flex';
 
                     const modalContent = document.querySelector('.modal-content');
-                    const msgArea = document.getElementById('messageArea');
-                    const originalBg = msgArea.style.background || '';
+                    const messageArea = document.getElementById('messageArea');
+                    const originalBg = messageArea.style.background;
 
                     if (superWinAmounts.includes(amount)) {
                         superWinMusic.currentTime = 0;
-                        superWinMusic.play().catch(console.log);
+                        superWinMusic.play().catch(e => console.log("Super win music error:", e));
                         hasPlayedMusic = true;
+
                         modalContent.classList.add('shake-super');
-                        setTimeout(() => modalContent.classList.remove('shake-super'), 1300);
+                        setTimeout(() => modalContent.classList.remove('shake-super'), 1800);
+
                         launchSuperConfetti();
-                        msgArea.style.background = 'linear-gradient(135deg, #ffeb3b, #ff9800, #f44336, #ffd700)';
-                        setTimeout(() => msgArea.style.background = originalBg, 7000);
+
+                        messageArea.style.background = 'linear-gradient(135deg, #ffeb3b, #ff9800, #f44336, #ffd700)';
+                        setTimeout(() => {
+                            messageArea.style.background = originalBg || 'linear-gradient(135deg, #fff3e0, #ffe0b2)';
+                        }, 10000);
                     }
                     else if (normalWinAmounts.includes(amount)) {
                         winMusic.currentTime = 0;
-                        winMusic.play().catch(console.log);
+                        winMusic.play().catch(e => console.log("Win music error:", e));
                         hasPlayedMusic = true;
+
                         modalContent.classList.add('shake-normal');
-                        setTimeout(() => modalContent.classList.remove('shake-normal'), 900);
+                        setTimeout(() => modalContent.classList.remove('shake-normal'), 1200);
+
                         launchConfetti();
-                        msgArea.style.background = 'linear-gradient(135deg, #ffd700, #ff6f00)';
-                        setTimeout(() => msgArea.style.background = originalBg, 4500);
+
+                        messageArea.style.background = 'linear-gradient(135deg, #ffd700, #ff6f00)';
+                        setTimeout(() => {
+                            messageArea.style.background = originalBg || 'linear-gradient(135deg, #fff3e0, #ffe0b2)';
+                        }, 6000);
                     }
                     else if (mediumWinAmounts.includes(amount)) {
                         mediumMusic.currentTime = 0;
-                        mediumMusic.play().catch(console.log);
+                        mediumMusic.play().catch(e => console.log("Medium music error:", e));
                         hasPlayedMusic = true;
                     }
                 }
             }
 
             canvas.addEventListener('mousedown', startScratch);
-            canvas.addEventListener('touchstart', startScratch, {passive: false});
+            canvas.addEventListener('touchstart', startScratch, { passive: false });
             canvas.addEventListener('mousemove', scratch);
-            canvas.addEventListener('touchmove', scratch, {passive: false});
+            canvas.addEventListener('touchmove', scratch, { passive: false });
             canvas.addEventListener('mouseup', endScratch);
             canvas.addEventListener('touchend', endScratch);
             canvas.addEventListener('mouseleave', endScratch);
         }
 
         function launchConfetti() {
-            const end = Date.now() + 4000;
+            const duration = 5000;
+            const end = Date.now() + duration;
             (function frame() {
-                confetti({particleCount:5, angle:60, spread:50, origin:{x:0}});
-                confetti({particleCount:5, angle:120, spread:50, origin:{x:1}});
+                confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 } });
                 if (Date.now() < end) requestAnimationFrame(frame);
-            })();
+            }());
         }
 
         function launchSuperConfetti() {
-            const end = Date.now() + 6500;
+            const duration = 8000;
+            const end = Date.now() + duration;
             (function frame() {
-                confetti({particleCount:9, angle:60, spread:65, origin:{x:0}, colors:['#ffeb3b','#ffd700','#fff','#ff9800']});
-                confetti({particleCount:9, angle:120, spread:65, origin:{x:1}, colors:['#ffeb3b','#ffd700','#fff','#ff9800']});
+                confetti({
+                    particleCount: 12,
+                    angle: 60,
+                    spread: 70,
+                    origin: { x: 0 },
+                    colors: ['#ffeb3b', '#ffd700', '#ffffff', '#ff9800']
+                });
+                confetti({
+                    particleCount: 12,
+                    angle: 120,
+                    spread: 70,
+                    origin: { x: 1 },
+                    colors: ['#ffeb3b', '#ffd700', '#ffffff', '#ff9800']
+                });
                 if (Date.now() < end) requestAnimationFrame(frame);
-            })();
+            }());
         }
 
         // Tạo 9 phong bì
-        for (let i = 0; i < 9; i++) {
+        const numEnvelopes = 9;
+
+        for (let i = 0; i < numEnvelopes; i++) {
             const amount = getRandomItem(weightedAmounts);
             const liXiImg = getRandomItem(liXiImages);
 
-            const env = document.createElement('div');
-            env.className = 'envelope';
-            env.style.backgroundImage = `url('${liXiImg}')`;
+            const envelopeDiv = document.createElement('div');
+            envelopeDiv.className = 'envelope';
+            envelopeDiv.style.backgroundImage = `url('${liXiImg}')`;
 
-            env.onclick = () => {
-                if (env.classList.contains('opened')) return;
-                env.classList.add('opened');
+            envelopeDiv.onclick = () => {
+                if (envelopeDiv.classList.contains('opened')) return;
+                envelopeDiv.classList.add('opened');
 
                 messageEl.textContent = getRandomItem(luckyMessages);
                 memeImage.src = getRandomItem(memeImages);
+                memeImage.style.display = 'block';
+
                 modal.style.display = 'flex';
 
-                setTimeout(() => initScratch(amount), 200);
+                setTimeout(() => initScratch(amount), 300);
             };
 
-            grid.appendChild(env);
+            grid.appendChild(envelopeDiv);
         }
 
         // Nhạc nền
         const music = document.getElementById('bgMusic');
         const toggleBtn = document.getElementById('musicToggle');
 
-        music.volume = 0.35;
-        music.play().catch(() => {});
+        music.volume = 0.4;
+        music.play().catch(() => console.log("Autoplay bị chặn"));
 
         toggleBtn.onclick = () => {
             if (music.paused) {
