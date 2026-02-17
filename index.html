@@ -200,7 +200,9 @@
             min-height: 240px;
             border-radius: 10px;
             overflow: hidden;
-            touch-action: none;
+            touch-action: none !important;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         #scratchCanvas {
@@ -433,7 +435,7 @@
 
         modal.onclick = e => { if (e.target === modal) closeModal(); };
 
-        // Scratch logic (giữ nguyên)
+        // Scratch logic - đã tối ưu cho mobile
         let canvas, ctx;
 
         function initScratch(amount) {
@@ -455,35 +457,49 @@
             ctx.fillStyle = '#616161';
             ctx.fillRect(0, 0, rect.width, rect.height);
             ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
 
             let isDrawing = false;
+            let lastX, lastY;
 
             function startScratch(e) {
                 if (e.touches) e.preventDefault();
                 isDrawing = true;
+                const rect = canvas.getBoundingClientRect();
+                lastX = ((e.clientX || e.touches[0].clientX) - rect.left) * dpr;
+                lastY = ((e.clientY || e.touches[0].clientY) - rect.top) * dpr;
                 scratch(e);
             }
 
             function endScratch() {
                 isDrawing = false;
+                lastX = null;
+                lastY = null;
             }
 
             function scratch(e) {
                 if (!isDrawing) return;
+                if (e.touches) e.preventDefault();
 
                 const rect = canvas.getBoundingClientRect();
-                const x = ((e.clientX || (e.touches && e.touches[0].clientX)) - rect.left) * dpr;
-                const y = ((e.clientY || (e.touches && e.touches[0].clientY)) - rect.top) * dpr;
+                const x = ((e.clientX || e.touches[0].clientX) - rect.left) * dpr;
+                const y = ((e.clientY || e.touches[0].clientY) - rect.top) * dpr;
 
+                ctx.lineWidth = 70;
                 ctx.beginPath();
-                ctx.arc(x, y, 25, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.moveTo(lastX / dpr, lastY / dpr);
+                ctx.lineTo(x / dpr, y / dpr);
+                ctx.stroke();
+
+                lastX = x;
+                lastY = y;
 
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const transparent = imageData.data.filter((v,i) => i%4===3 && v < 20).length;
                 const percent = (transparent / (canvas.width * canvas.height)) * 100;
 
-                if (percent >= 65 && !hasPlayedMusic) {
+                if (percent >= 60 && !hasPlayedMusic) {
                     coverLayer.style.display = 'none';
                     moneyImage.src = getMoneyImageUrl(amount);
                     moneyImage.style.display = 'flex';
@@ -521,9 +537,9 @@
             }
 
             canvas.addEventListener('mousedown', startScratch);
-            canvas.addEventListener('touchstart', startScratch, {passive: false});
+            canvas.addEventListener('touchstart', startScratch, { passive: false });
             canvas.addEventListener('mousemove', scratch);
-            canvas.addEventListener('touchmove', scratch, {passive: false});
+            canvas.addEventListener('touchmove', scratch, { passive: false });
             canvas.addEventListener('mouseup', endScratch);
             canvas.addEventListener('touchend', endScratch);
             canvas.addEventListener('mouseleave', endScratch);
@@ -591,7 +607,7 @@
             }
         };
 
-        // 🔥 Fix autoplay video chắc chắn hơn
+        // Đảm bảo video autoplay
         document.addEventListener("DOMContentLoaded", () => {
             const video = document.getElementById("bg-video");
             video.play().catch(err => {
